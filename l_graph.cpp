@@ -84,27 +84,27 @@ std::vector<int>  bfs(graph l, int u)
 //	}
 //}
 
-std::vector<int>  Dfs(graph l, int u)
-{
-	std::stack<int> q;
-	std::vector<int> r;
-	std::vector<bool> status(l.size(), false);
-	q.push(u);
-	status[u] = true;
-	while (!q.empty())
-	{
-		int v = q.top();
-		q.pop();
-		r.push_back(v);
-		for (int i = 0; i < l[v].size(); i++)
-			if (!status[l[v][i].v])
-			{ 
-				status[l[v][i].v] = true;
-				q.push(l[v][i].v);
-			}
-	}
-	return r;
-}
+//std::vector<int>  Dfs(graph l, int u)
+//{
+//	std::stack<int> q;
+//	std::vector<int> r;
+//	std::vector<bool> status(l.size(), false);
+//	q.push(u);
+//	status[u] = true;
+//	while (!q.empty())
+//	{
+//		int v = q.top();
+//		q.pop();
+//		r.push_back(v);
+//		for (int i = 0; i < l[v].size(); i++)
+//			if (!status[l[v][i].v])
+//			{ 
+//				status[l[v][i].v] = true;
+//				q.push(l[v][i].v);
+//			}
+//	}
+//	return r;
+//}
 
 int main()
 {
