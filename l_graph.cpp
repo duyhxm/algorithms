@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<queue>
+#include<stack>
 
 struct edge {
 	float w;
@@ -62,6 +63,49 @@ std::vector<int>  bfs(graph l, int u)
 	return r;
 }
 
+//std::vector<int> dfs(graph g, int u)
+//{
+//	static std::vector<int> r;
+//    static std::vector<bool> status(g.size(), false);
+//
+//	if (r.size() == g.size())
+//		return r;
+//
+//	for (int i = 0; i < g[u].size(); i++)
+//	{
+//		int w = g[u][i].v;
+//		if (!status[w] && g[u].size() == 0)
+//		{
+//			r.push_back(w);
+//			status[w] = true;
+//		}
+//		else
+//			dfs(g,w);
+//	}
+//}
+
+std::vector<int>  Dfs(graph l, int u)
+{
+	std::stack<int> q;
+	std::vector<int> r;
+	std::vector<bool> status(l.size(), false);
+	q.push(u);
+	status[u] = true;
+	while (!q.empty())
+	{
+		int v = q.top();
+		q.pop();
+		r.push_back(v);
+		for (int i = 0; i < l[v].size(); i++)
+			if (!status[l[v][i].v])
+			{ 
+				status[l[v][i].v] = true;
+				q.push(l[v][i].v);
+			}
+	}
+	return r;
+}
+
 int main()
 {
 	int n;
@@ -76,8 +120,9 @@ int main()
 		std::cout << "1. Adding an edge\n";
 		std::cout << "2. Removing an edge\n";
 		std::cout << "3. Printing\n";
-		std::cout << "4. Tranversal\n";
-		std::cout << "5. Exit\n";
+		std::cout << "4. Tranversal BFS\n";
+		std::cout << "5. Tranversal DFS\n";
+		std::cout << "6. Exit\n";
 		std::cout << "Enter a number to choose: ";
 		short choice = 0; std::cin >> choice;
 		std::cout << "--------------------" << std::endl;
@@ -113,7 +158,19 @@ int main()
 						}
 					}
 					else
-						exit(0);
+						if (choice == 5)
+						{
+							std::cout << "enter a point: ";
+							std::cin >> u;
+							std::vector<int> r = Dfs(g, u);
+							for (int i = 0; i < r.size(); i++)
+							{
+								std::cout << r[i] << "  ";
+								std::cout << std::endl;
+							}
+						}
+						else
+							exit(0);
 	}
 
 	system("pause>0");
