@@ -16,18 +16,29 @@ graph buid_graph(int vertices)
 	return g;
 }
 
-void add_edge(graph &g, int u, edge e)
+void add_edge(graph& g, int u, edge e)
 {
 	if (u < 0 || e.v < 0 || u >= g.size() || e.v >= g.size())
 		return;
 	g[u].push_back(e);
+	edge t{ e.w,u };
+	g[e.v].push_back(t);
 }
 
 void delete_edge(graph &g, int u, edge e)
 {
 	if (u < 0 || e.v < 0 || u >= g.size() || e.v >= g.size())
 		return;
-	g[u].erase(g[u].begin()+e.v);
+	for (int i = 0; i < g[u].size(); i++)
+	{
+		if(g[u][i].v==e.v)
+			g[u].erase(g[u].begin() + i);
+	}
+	for (int i = 0; i < g[e.v].size(); i++)
+	{
+		if(g[e.v][i].v==u)
+			g[e.v].erase(g[e.v].begin() + i);
+	}
 }
 
 void print_graph(graph g)
@@ -63,48 +74,23 @@ std::vector<int>  bfs(graph l, int u)
 	return r;
 }
 
-//std::vector<int> dfs(graph g, int u)
-//{
-//	static std::vector<int> r;
-//    static std::vector<bool> status(g.size(), false);
-//
-//	if (r.size() == g.size())
-//		return r;
-//
-//	for (int i = 0; i < g[u].size(); i++)
-//	{
-//		int w = g[u][i].v;
-//		if (!status[w] && g[u].size() == 0)
-//		{
-//			r.push_back(w);
-//			status[w] = true;
-//		}
-//		else
-//			dfs(g,w);
-//	}
-//}
+std::vector<int> dfs(graph g, int u)
+{
+	static std::vector<int> r;
+    static std::vector<bool> status(g.size(), false);
 
-//std::vector<int>  Dfs(graph l, int u)
-//{
-//	std::stack<int> q;
-//	std::vector<int> r;
-//	std::vector<bool> status(l.size(), false);
-//	q.push(u);
-//	status[u] = true;
-//	while (!q.empty())
-//	{
-//		int v = q.top();
-//		q.pop();
-//		r.push_back(v);
-//		for (int i = 0; i < l[v].size(); i++)
-//			if (!status[l[v][i].v])
-//			{ 
-//				status[l[v][i].v] = true;
-//				q.push(l[v][i].v);
-//			}
-//	}
-//	return r;
-//}
+	if (r.size() == g.size())
+		return r;
+	r.push_back(u);
+	status[u] = true;
+	for (int i = 0; i < g[u].size(); i++)
+	{
+		int w = g[u][i].v;
+		if (!status[w])
+			dfs(g, w);
+	}
+	return r;
+}
 
 int main()
 {
@@ -162,7 +148,7 @@ int main()
 						{
 							std::cout << "enter a point: ";
 							std::cin >> u;
-							std::vector<int> r = Dfs(g, u);
+							std::vector<int> r = dfs(g, u);
 							for (int i = 0; i < r.size(); i++)
 							{
 								std::cout << r[i] << "  ";
