@@ -80,6 +80,7 @@ int main()
 	std::vector<std::string> line;
 	std::fstream file("E:\\exercise.txt");
 
+	//read file
 	if (file.is_open())
 	{
 		std::string l;
@@ -89,6 +90,7 @@ int main()
 		file.close();
 	}
 
+	//create graph
 	std::stringstream ss(line[0]);
 	std::vector<std::string> origin;
 	std::string word;
@@ -101,6 +103,7 @@ int main()
 	lGraph lG(cnt);
 	mGraph mG(cnt, std::vector<float>(cnt,0));
 
+	//add edge
 	for (int i = 1; i < line.size(); i++)
 	{
 		std::stringstream ss(line[i]);
@@ -125,6 +128,7 @@ int main()
 		lG[v].push_back({ u,0 });
 	}
 
+	//print graph
 	print_mgraph(mG);
 	std::cout << std::endl;
 	print_lgraph(lG);
