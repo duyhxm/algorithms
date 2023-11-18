@@ -2,7 +2,6 @@
 #include<fstream>
 #include<vector>
 #include<string>
-#include<queue>
 #include<sstream>
 
 struct mEdge
@@ -52,9 +51,32 @@ void add_edge(lGraph&g, int u, lE e)
 	g[e.v].push_back(t);
 }
 
+void print_mgraph(mGraph g)
+{
+	for (int i = 0; i < g.size(); i++)
+	{
+		for (int j = 0; j < g[i].size(); j++)
+		{
+			std::cout << g[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+}
+void print_lgraph(lGraph g)
+{
+	for (int i = 0; i < g.size(); i++)
+	{
+		std::cout << i << ": ";
+		for (int j = 0; j < g[i].size(); j++)
+		{
+			std::cout << g[i][j].v << " ";
+		}
+		std::cout << std::endl;
+	}
+}
+
 int main()
 {
-	std::priority_queue<int> a;
 	std::vector<std::string> line;
 	std::fstream file("E:\\exercise.txt");
 
@@ -63,6 +85,7 @@ int main()
 		std::string l;
 		while (std::getline(file,l))
 			line.push_back(l);
+		line.erase(line.begin()+line.size()-1);
 		file.close();
 	}
 
@@ -101,5 +124,10 @@ int main()
 		lG[u].push_back({ v,0 });
 		lG[v].push_back({ u,0 });
 	}
+
+	print_mgraph(mG);
+	std::cout << std::endl;
+	print_lgraph(lG);
+
 	system("pause>0");
 }
